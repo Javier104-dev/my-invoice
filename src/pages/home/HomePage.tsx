@@ -1,5 +1,11 @@
+import Invoice from '@/features/invoice/components/Invoice';
+
 const HomePage = () => {
-  return <div>test home</div>;
+  return (
+    <div className="mx-auto">
+      <Invoice />
+    </div>
+  );
 };
 
 export default HomePage;
