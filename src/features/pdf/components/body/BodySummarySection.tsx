@@ -1,23 +1,29 @@
 import { Text, View } from '@react-pdf/renderer';
 
+import {
+  ILabelValue,
+} from '@/features/invoice/interfaces/IInvoiceFormValues';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
-const BodySummarySection = () => {
+type Props = {
+  payTo: ILabelValue;
+  netTotal: ILabelValue,
+};
+
+const BodySummarySection = ({ payTo, netTotal }: Props) => {
   return (
     <View style={styles.paymentSummary}>
       <View style={styles.payeeSection}>
-        <Text style={styles.payeeSectionLabel}>PAGAR A</Text>
+        <Text style={styles.payeeSectionLabel}>{payTo.label}</Text>
         <View style={styles.goldUnderline} />
-        <Text style={styles.payeeSectionName}>
-          Katerine Katerine Katerine Katerine
-        </Text>
+        <Text style={styles.payeeSectionName}>{payTo.value}</Text>
       </View>
       <View style={styles.totalSection}>
         <View style={styles.totalSectionLabelBox}>
-          <Text>TOTAL NETO</Text>
+          <Text>{netTotal.label}</Text>
           <View style={styles.goldUnderline} />
         </View>
-        <Text style={styles.totalSectionAmount}>$106.20</Text>
+        <Text style={styles.totalSectionAmount}>{netTotal.value}</Text>
       </View>
     </View>
   );

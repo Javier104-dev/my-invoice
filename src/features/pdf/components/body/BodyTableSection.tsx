@@ -1,56 +1,44 @@
 import { Text, View } from '@react-pdf/renderer';
 
+import {
+  ILabelValue,
+  ITable,
+} from '@/features/invoice/interfaces/IInvoiceFormValues';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
-const items = [
-  {
-    concento: 'contenido digital en platarforma',
-    cantidad: 34534,
-    precio: 34543,
-    total: 3453,
-  },
-  {
-    concento: 'contenido digital en platarforma',
-    cantidad: 34534,
-    precio: 34543,
-    total: 3453,
-  },
-  {
-    concento: 'contenido digital en platarforma',
-    cantidad: 34534,
-    precio: 34543,
-    total: 3453,
-  },
-];
+type Props = {
+  table: ITable;
+  totalDue: ILabelValue;
+};
 
-const BodyTableSection = () => {
+const BodyTableSection = ({ table, totalDue }: Props) => {
   return (
     <View style={styles.tableSection}>
       <View style={styles.tableHeader}>
-        <Text style={styles.tableCellCol1}>CONCEPTO</Text>
-        <Text style={styles.tableCellCol2}>CANTIDAD</Text>
-        <Text style={styles.tableCellCol3}>PRECIO</Text>
-        <Text style={styles.tableCellCol4}>TOTAL</Text>
+        <Text style={styles.tableCellCol1}>{table.columns.itemHeader}</Text>
+        <Text style={styles.tableCellCol2}>{table.columns.quantityHeader}</Text>
+        <Text style={styles.tableCellCol3}>{table.columns.unitCostHeader}</Text>
+        <Text style={styles.tableCellCol4}>{table.columns.amountHeader}</Text>
       </View>
       <View style={styles.tableBody}>
         <View style={styles.tableBodyRow}>
-          {items.map((row, index) => (
+          {table.items.map((row, index) => (
             <View
-              key={row.total}
+              key={row.quantity}
               style={[
                 styles.tableBodyRowInner,
-                index >= items.length - 1 ? { borderBottom: 'none' } : {},
+                index >= table.items.length - 1 ? { borderBottom: 'none' } : {},
               ]}
             >
-              <Text style={styles.tableCellCol1}>{row.concento}</Text>
-              <Text style={styles.tableCellCol2}>{row.cantidad}</Text>
-              <Text style={styles.tableCellCol3}>{row.precio}</Text>
+              <Text style={styles.tableCellCol1}>{row.description}</Text>
+              <Text style={styles.tableCellCol2}>{row.quantity}</Text>
+              <Text style={styles.tableCellCol3}>{row.price}</Text>
               <Text style={styles.tableCellCol4}>{row.total}</Text>
             </View>
           ))}
           <View style={styles.tableBodyRowTotal}>
-            <Text>TOTAL A PAGAR</Text>
-            <Text style={styles.tableBodyRowTotalAmount}>$106.20</Text>
+            <Text>{totalDue.label}</Text>
+            <Text style={styles.tableBodyRowTotalAmount}>{totalDue.value}</Text>
           </View>
         </View>
       </View>

@@ -1,13 +1,19 @@
-import { styles } from "@/features/pdf/styles/invoice.styles";
-import { Text, View } from "@react-pdf/renderer";
+import { Text, View } from '@react-pdf/renderer';
 
-const InvoiceFooter = () => {
+import { styles } from '@/features/pdf/styles/invoice.styles';
+
+type Props = {
+  companyName: string;
+  closingMessage: string;
+};
+
+const InvoiceFooter = ({ companyName, closingMessage }: Props) => {
   return (
     <View style={styles.footerSection}>
       <View style={styles.footerSectionContent}>
         <View style={styles.footerDividerSection}>
-          <Text>AGRADECEMOS SU CONFIANZA</Text>
-          <Text style={styles.footerSectionAgencyName}>ESTUDIO SUR</Text>
+          <Text>{closingMessage}</Text>
+          <Text style={styles.footerSectionAgencyName}>{companyName}</Text>
         </View>
       </View>
     </View>

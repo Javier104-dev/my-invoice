@@ -1,35 +1,44 @@
-interface IClientFormValues {
+export interface IClientFormValues {
   name: string;
   email: string;
 }
 
 interface IItemsFormValues {
-  desc: string;
+  description: string;
   quantity: number;
   price: number;
+  total?: string;
 }
 
-interface ILabelValue<T = string> {
+export interface ILabelValue {
   label: string;
-  value: T;
+  value?: string;
 }
 
-interface IColum {
+export interface IColum {
   itemHeader: string;
   quantityHeader: string;
   unitCostHeader: string;
   amountHeader: string;
 }
 
-export interface IInvoiceFormValues {
-  title: string;
-  company: string;
-  payTo: ILabelValue<IClientFormValues>;
+export interface ITable {
   columns: IColum;
-  invoiceNumber: string;
-  date: ILabelValue;
   items: IItemsFormValues[];
+}
+
+export interface IInvoiceFormValues {
+  currency: string;
+  imageUrl: string;
+  title: string;
+  companyName: string;
+  invoiceNumber: string;
+  date: string;
+  payTo: ILabelValue;
+  netTotal: ILabelValue;
+  table: ITable;
+  totalDue: ILabelValue;
   notes: ILabelValue;
   terms: ILabelValue;
-  total: string;
+  closingMessage: string;
 }

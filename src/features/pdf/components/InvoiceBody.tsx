@@ -1,16 +1,36 @@
 import { View } from '@react-pdf/renderer';
 
+import {
+  ILabelValue,
+  ITable,
+} from '@/features/invoice/interfaces/IInvoiceFormValues';
 import BodyInfoSection from '@/features/pdf/components/body/BodyInfoSection';
 import BodySummarySection from '@/features/pdf/components/body/BodySummarySection';
 import BodyTableSection from '@/features/pdf/components/body/BodyTableSection';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
-const InvoiceBody = () => {
+type Props = {
+  payTo: ILabelValue;
+  table: ITable;
+  notes: ILabelValue;
+  terms: ILabelValue;
+  netTotal: ILabelValue;
+  totalDue: ILabelValue;
+};
+
+const InvoiceBody = ({
+  payTo,
+  table,
+  notes,
+  terms,
+  netTotal,
+  totalDue,
+}: Props) => {
   return (
     <View style={[styles.body, styles.container]}>
-      <BodySummarySection />
-      <BodyTableSection />
-      <BodyInfoSection />
+      <BodySummarySection payTo={payTo} netTotal={netTotal} />
+      <BodyTableSection table={table} totalDue={totalDue} />
+      <BodyInfoSection notes={notes} terms={terms} />
     </View>
   );
 };

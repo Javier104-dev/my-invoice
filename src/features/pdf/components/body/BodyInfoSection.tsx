@@ -1,32 +1,32 @@
 import { Text, View } from '@react-pdf/renderer';
 
+import { ILabelValue } from '@/features/invoice/interfaces/IInvoiceFormValues';
 import FileTextIcon from '@/features/pdf/assets/FileTextIcon';
 import WalletIcon from '@/features/pdf/assets/WalletIcon';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
-const BodyInfoSection = () => {
+type Props = {
+  notes: ILabelValue;
+  terms: ILabelValue;
+};
+
+const BodyInfoSection = ({ notes, terms }: Props) => {
   return (
     <View style={styles.additionalInfoSection}>
       <View style={styles.additionalInfoColumns}>
         <WalletIcon size={20} />
         <View style={styles.additionalInfoColumnsContent}>
-          <Text style={styles.additionalInfoColumnsTitle}>
-            DETALLES DE PAGO
-          </Text>
+          <Text style={styles.additionalInfoColumnsTitle}>{notes.label}</Text>
           <View style={styles.goldUnderline} />
-          <Text style={styles.additionalInfoColumnsText}>retertertfhfhdf</Text>
+          <Text style={styles.additionalInfoColumnsText}>{notes.value}</Text>
         </View>
       </View>
       <View style={styles.additionalInfoColumns}>
         <FileTextIcon size={20} />
         <View style={styles.additionalInfoColumnsContent}>
-          <Text style={styles.additionalInfoColumnsTitle}>TERMINOS</Text>
+          <Text style={styles.additionalInfoColumnsTitle}>{terms.label}</Text>
           <View style={styles.goldUnderline} />
-          <Text style={styles.additionalInfoColumnsText}>
-            Este documento corresponde a una liquidación informativa de ingresos
-            generados en plataforma. No constituye comprobante fiscal ni
-            reemplaza una factura emitida por el prestador del servicio.
-          </Text>
+          <Text style={styles.additionalInfoColumnsText}>{terms.value}</Text>
         </View>
       </View>
     </View>
