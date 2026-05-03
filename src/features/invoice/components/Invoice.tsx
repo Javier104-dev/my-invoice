@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 
 import InputTextarea from './input/InputTextarea';
@@ -7,30 +7,17 @@ import InvoiceContainer from '@/features/invoice/components/InvoiceContainer';
 import EditableLabel from '@/features/invoice/components/input/EditableLabel';
 import FormField from '@/features/invoice/components/input/FormField';
 import Input from '@/features/invoice/components/input/Input';
-import { invoicePaymentNotes } from '@/features/invoice/constants/invoicePaymentNotes ';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/IInvoiceFormValues';
-
-const payToOptions = [
-  {
-    id: '1',
-    name: 'Empresa A',
-    binancePay: 'empresaA@email.com',
-    walletAddress: '',
-  },
-  {
-    id: '2',
-    name: 'Empresa B',
-    binancePay: '',
-    walletAddress: 'walletAddress',
-  },
-];
+import {
+  IInvoiceFormValues,
+  IItemsFormValues,
+} from '@/features/invoice/interfaces/IInvoiceFormValues';
 
 const defaultValues: IInvoiceFormValues = {
-  currency: 'USDT',
+  currency: 'USD',
   imageUrl: '',
-  title: 'LIQUIDACIÓN DE INGRESOS',
+  title: 'Invoice',
   companyName: '',
-  invoiceNumber: 'LIQ-0001',
+  invoiceNumber: '',
   date: new Date().toISOString().split('T')[0],
   payTo: { label: 'Pagar a', value: '' },
   netTotal: { label: 'Total neto' },
@@ -41,33 +28,25 @@ const defaultValues: IInvoiceFormValues = {
       unitCostHeader: 'Monto',
       amountHeader: 'Total',
     },
-    items: [
-      {
-        description: 'Ingresos generados en plataforma',
-        quantity: 1,
-        price: 0,
-      },
-      { description: 'Comisión Estudio Sur (10%)', quantity: 1, price: 0 },
-      {
-        description: 'Costo de transferencia (Red TRC20)',
-        quantity: 1,
-        price: 0,
-      },
-    ],
+    items: [{ description: '', quantity: 1, price: 0 }],
   },
   totalDue: { label: 'Total' },
   notes: { label: 'Detalles de pago', value: '' },
   terms: {
     label: 'Términos',
-    value:
-      'Este documento corresponde a una liquidación informativa de ingresos generados en la plataforma. No constituye comprobante fiscal ni reemplaza una factura emitida por el prestador del servicio.',
+    value: '',
   },
-  closingMessage: 'Agradecemos su confianza',
+  closingMessage: '',
 };
 
+const STORAGE_KEY = 'invoice-form';
+const LOGO_KEY = 'ls.logo-';
+
 const Invoice = () => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const initialValues = saved ? JSON.parse(saved) : defaultValues;
   const { register, control, handleSubmit, setValue } = useForm({
-    defaultValues,
+    defaultValues: initialValues,
   });
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -77,44 +56,38 @@ const Invoice = () => {
     name: 'table.items',
   });
 
-  const items = useWatch({ control, name: 'table.items' });
-  const imageUrl = useWatch({ control, name: 'imageUrl' });
-  const currency = useWatch({ control, name: 'currency' });
-
-  const total = items.reduce(
-    (sum, i) => sum + (Number(i.quantity) || 0) * (Number(i.price) || 0),
+  const values = useWatch({ control });
+  const { table: { items } = {}, imageUrl, currency } = values;
+  const imageSrc = imageUrl
+    ? (localStorage.getItem(`${LOGO_KEY}${imageUrl}`) ?? '')
+    : '';
+  const total = items?.reduce(
+    (sum: number, i: IItemsFormValues) =>
+      sum + (Number(i.quantity) || 0) * (Number(i.price) || 0),
     0,
   );
 
   const handleLogoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    setValue('imageUrl', url);
-  };
 
-  const handlePayToChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = e.target.value;
-    const selected = payToOptions.find((option) => option.id === selectedId);
-    if (!selected) return;
-    setValue('payTo.value', selected.name);
-
-    if (selected.binancePay) {
-      setValue(
-        'notes.value',
-        invoicePaymentNotes.binancePay(selected.binancePay),
-      );
-    } else if (selected.walletAddress) {
-      setValue(
-        'notes.value',
-        invoicePaymentNotes.wallet(selected.walletAddress),
-      );
-    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result as string;
+      const hash = file.name.replaceAll(/[^a-zA-Z0-9]/g, '');
+      localStorage.setItem(`${LOGO_KEY}${hash}`, base64);
+      setValue('imageUrl', hash);
+    };
+    reader.readAsDataURL(file);
   };
 
   const onSubmit = (data: typeof defaultValues) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+  }, [values]);
 
   return (
     <InvoiceContainer>
@@ -142,7 +115,7 @@ const Invoice = () => {
               )}
               {imageUrl && (
                 <img
-                  src={imageUrl}
+                  src={imageSrc}
                   alt="Logo"
                   className="object-cover object-center"
                 />
@@ -184,19 +157,6 @@ const Invoice = () => {
                   <select {...register('currency')}>
                     <option value="USDT">USDT</option>
                     <option value="USD">USD</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <div className="flex">
-                  <span>Modelos</span>
-                  <select onChange={handlePayToChange}>
-                    <option value="" />
-                    {payToOptions.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
                   </select>
                 </div>
               </div>

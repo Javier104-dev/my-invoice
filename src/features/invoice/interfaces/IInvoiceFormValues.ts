@@ -3,7 +3,7 @@ export interface IClientFormValues {
   email: string;
 }
 
-interface IItemsFormValues {
+export interface IItemsFormValues {
   description: string;
   quantity: number;
   price: number;
