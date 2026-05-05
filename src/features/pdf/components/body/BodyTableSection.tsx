@@ -1,13 +1,11 @@
 import { Text, View } from '@react-pdf/renderer';
 
-import {
-  ILabelValue,
-  ITable,
-} from '@/features/invoice/interfaces/IInvoiceFormValues';
+import { ILabelValue } from '@/features/invoice/interfaces/invoice.types';
+import { IPDFInvoiceTable } from '@/features/pdf/interfaces/invoice-pdf.types';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
 type Props = {
-  table: ITable;
+  table: IPDFInvoiceTable;
   totalDue: ILabelValue;
 };
 

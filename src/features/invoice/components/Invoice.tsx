@@ -1,16 +1,22 @@
-import { ChangeEvent, useEffect, useRef } from 'react';
+import { pdf } from '@react-pdf/renderer';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 
+import { IInvoiceFormValues } from '../interfaces/invoice.types';
 import InputTextarea from './input/InputTextarea';
 
 import InvoiceContainer from '@/features/invoice/components/InvoiceContainer';
+import SelectInput from '@/features/invoice/components/SelectInput';
 import EditableLabel from '@/features/invoice/components/input/EditableLabel';
 import FormField from '@/features/invoice/components/input/FormField';
 import Input from '@/features/invoice/components/input/Input';
+import { STORAGE } from '@/features/invoice/constants/storage';
 import {
-  IInvoiceFormValues,
-  IItemsFormValues,
-} from '@/features/invoice/interfaces/IInvoiceFormValues';
+  calculateLineTotal,
+  formatInvoiceForPDF,
+  formatSubtotal,
+} from '@/features/invoice/utils/invoice-formatters';
+import InvoicePDF from '@/features/pdf/InvoicePDF';
 
 const defaultValues: IInvoiceFormValues = {
   currency: 'USD',
@@ -18,7 +24,7 @@ const defaultValues: IInvoiceFormValues = {
   title: 'Invoice',
   companyName: '',
   invoiceNumber: '',
-  date: new Date().toISOString().split('T')[0],
+  date: new Date().toLocaleDateString('en-CA'),
   payTo: { label: 'Pagar a', value: '' },
   netTotal: { label: 'Total neto' },
   table: {
@@ -39,15 +45,18 @@ const defaultValues: IInvoiceFormValues = {
   closingMessage: '',
 };
 
-const STORAGE_KEY = 'invoice-form';
-const LOGO_KEY = 'ls.logo-';
+const options = [
+  { value: 'USD', label: 'USD' },
+  { value: 'USDT', label: 'USDT' },
+];
 
 const Invoice = () => {
-  const saved = localStorage.getItem(STORAGE_KEY);
+  const saved = localStorage.getItem(STORAGE.FORM);
   const initialValues = saved ? JSON.parse(saved) : defaultValues;
   const { register, control, handleSubmit, setValue } = useForm({
     defaultValues: initialValues,
   });
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -59,34 +68,74 @@ const Invoice = () => {
   const values = useWatch({ control });
   const { table: { items } = {}, imageUrl, currency } = values;
   const imageSrc = imageUrl
-    ? (localStorage.getItem(`${LOGO_KEY}${imageUrl}`) ?? '')
+    ? (localStorage.getItem(`${STORAGE.LOGO_PREFIX}${imageUrl}`) ?? '')
     : '';
-  const total = items?.reduce(
-    (sum: number, i: IItemsFormValues) =>
-      sum + (Number(i.quantity) || 0) * (Number(i.price) || 0),
-    0,
-  );
+  const total = formatSubtotal(items);
 
   const handleLogoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const MAX_LOGO_SIZE = 768 * 1024;
+
+    if (file.size > MAX_LOGO_SIZE) {
+      alert(
+        'The selected image is too large. Please choose one that is 768KB or smaller.',
+      );
+      return;
+    }
+
     const reader = new FileReader();
+
     reader.onload = () => {
-      const base64 = reader.result as string;
-      const hash = file.name.replaceAll(/[^a-zA-Z0-9]/g, '');
-      localStorage.setItem(`${LOGO_KEY}${hash}`, base64);
-      setValue('imageUrl', hash);
+      try {
+        const base64 = reader.result as string;
+        const hash = `${file.name.replaceAll(/[^a-zA-Z0-9]/g, '')}_${Date.now()}`;
+        localStorage.setItem(`${STORAGE.LOGO_PREFIX}${hash}`, base64);
+        setValue('imageUrl', hash);
+      } catch {
+        alert(
+          'Unable to save the image. Storage may be full or the file may be too large.',
+        );
+      }
     };
+
+    reader.onerror = () => {
+      alert('Failed to read the selected image.');
+    };
+
     reader.readAsDataURL(file);
   };
 
-  const onSubmit = (data: typeof defaultValues) => {
-    console.log(data);
+  const handleLogoRemove = () => {
+    if (!imageUrl) return;
+
+    localStorage.removeItem(`${STORAGE.LOGO_PREFIX}${imageUrl}`);
+    setValue('imageUrl', '');
+  };
+
+  const onSubmit = async (data: IInvoiceFormValues) => {
+    setIsGenerating(true);
+    try {
+      const formatedData = formatInvoiceForPDF(data);
+
+      const blob = await pdf(<InvoicePDF data={formatedData} />).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download = `invoice-${data.invoiceNumber}.pdf`;
+      link.click();
+
+      URL.revokeObjectURL(url);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+    localStorage.setItem(STORAGE.FORM, JSON.stringify(values));
   }, [values]);
 
   return (
@@ -114,11 +163,22 @@ const Invoice = () => {
                 </button>
               )}
               {imageUrl && (
-                <img
-                  src={imageSrc}
-                  alt="Logo"
-                  className="object-cover object-center"
-                />
+                <div className="relative">
+                  <img
+                    src={imageSrc}
+                    alt="Logo"
+                    className="object-cover object-center"
+                  />
+                  <div className="absolute top-0">
+                    <button
+                      className="cursor-pointer w-full px-3 py-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors text-lg"
+                      type="button"
+                      onClick={handleLogoRemove}
+                    >
+                      <span>X</span>
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
             <div className="flex flex-col max-w-[45%] gap-2">
@@ -149,17 +209,13 @@ const Invoice = () => {
                 />
               </FormField>
             </div>
-            <div>
+            <div className="flex flex-col gap-4 items-end">
               <Input registration={register('date')} type="date" />
-              <div>
-                <div className="flex">
-                  <span>Divisa</span>
-                  <select {...register('currency')}>
-                    <option value="USDT">USDT</option>
-                    <option value="USD">USD</option>
-                  </select>
-                </div>
-              </div>
+              <SelectInput
+                label="Divisa"
+                registration={register('currency')}
+                options={options}
+              />
             </div>
           </div>
         </div>
@@ -216,11 +272,15 @@ const Invoice = () => {
                       valueAsNumber: true,
                     })}
                     type="number"
+                    step={'any'}
                   />
                 </div>
                 <div className="relative w-28 px-3 py-1.5 flex items-center group">
                   <span className="whitespace-nowrap">
-                    {`${(Number(items[index]?.quantity) || 0) * (Number(items[index]?.price) || 0)} ${currency}$`}
+                    {`${calculateLineTotal(
+                      items[index]?.quantity,
+                      items[index]?.price,
+                    ).toFixed(2)} ${currency}`}
                   </span>
                   <button
                     className="absolute right-4 cursor-pointer text-gray-400 hover:text-red-600 rounded transition-colors invisible group-hover:visible font-bold"
@@ -241,9 +301,9 @@ const Invoice = () => {
         >
           <span>Elemento en linea</span>
         </button>
-        <div className="flex flex-col gap-5">
-          <div className="flex gap-5 justify-between mt-10">
-            <div className="w-[50%] flex flex-col gap-5">
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-4 justify-between mt-10">
+            <div className="w-[50%] flex flex-col gap-4">
               <div className="flex flex-col">
                 <FormField
                   labelPosition={'top'}
@@ -271,7 +331,7 @@ const Invoice = () => {
               <div className="w-[50%]">
                 <EditableLabel registration={register('netTotal.label')} />
               </div>
-              <span className="whitespace-nowrap">{`${total.toFixed(2)} ${currency}$`}</span>
+              <span className="whitespace-nowrap">{`${total} ${currency}$`}</span>
             </div>
           </div>
           <div className="w-full max-w-[300px] self-center">
@@ -285,7 +345,7 @@ const Invoice = () => {
           className="cursor-pointer w-full px-6 py-3 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors text-lg mt-8"
           type="submit"
         >
-          <span>Descargar</span>
+          <span>{isGenerating ? 'Generating...' : 'Download PDF'}</span>
         </button>
       </form>
     </InvoiceContainer>

@@ -7,7 +7,7 @@ export interface IItemsFormValues {
   description: string;
   quantity: number;
   price: number;
-  total?: string;
+  total?: number;
 }
 
 export interface ILabelValue {

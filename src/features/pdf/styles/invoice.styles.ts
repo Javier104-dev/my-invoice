@@ -18,16 +18,19 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#B78A2F',
   },
-  logoBox: {
+  companyBranding: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
   },
+  logoContainer: {
+    width: 80,
+  },
   logo: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#B78A2F',
-    borderRadius: 100,
+    objectFit: 'cover',
+    objectPosition: 'center',
+    width: '100%',
+    height: 'auto',
   },
   companyName: {
     fontSize: 20,
@@ -90,6 +93,7 @@ export const styles = StyleSheet.create({
     color: '#B78A2F',
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
+    width: '100%',
   },
   tableCellCol1: { flex: 3 },
   tableCellCol2: { flex: 1, textAlign: 'center' },
@@ -103,6 +107,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
+    width: '100%',
   },
   tableBodyRow: {
     paddingHorizontal: 15,

@@ -1,19 +1,28 @@
-import { Text, View } from '@react-pdf/renderer';
+import { Image, Text, View } from '@react-pdf/renderer';
 
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
 type Props = {
+  imageUrl: string;
   companyName: string;
   title: string;
   invoiceNumber: string;
   date: string;
 };
 
-const InvoiceHeader = ({ companyName, title, invoiceNumber, date }: Props) => {
+const InvoiceHeader = ({
+  imageUrl,
+  companyName,
+  title,
+  invoiceNumber,
+  date,
+}: Props) => {
   return (
     <View style={[styles.header, styles.container]}>
-      <View style={styles.logoBox}>
-        <View style={styles.logo} />
+      <View style={styles.companyBranding}>
+        <View style={styles.logoContainer}>
+          <Image src={imageUrl} style={styles.logo} />
+        </View>
         <Text style={styles.companyName}>{companyName}</Text>
       </View>
       <View style={styles.invoiceHeader}>

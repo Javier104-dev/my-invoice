@@ -1,21 +1,22 @@
-import { Document, Font, PDFViewer, Page } from '@react-pdf/renderer';
+import { Document, Font, Page } from '@react-pdf/renderer';
 
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/IInvoiceFormValues';
 import InvoiceBody from '@/features/pdf/components/InvoiceBody';
 import InvoiceFooter from '@/features/pdf/components/InvoiceFooter';
 import InvoiceHeader from '@/features/pdf/components/InvoiceHeader';
+import { IPDFInvoiceFormValues } from '@/features/pdf/interfaces/invoice-pdf.types';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
 Font.registerHyphenationCallback((word) => [word]);
 
 type Props = {
-  data: IInvoiceFormValues;
+  data: IPDFInvoiceFormValues;
 };
 
 const InvoicePDF = ({ data }: Props) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <InvoiceHeader
+        imageUrl={data.imageUrl}
         companyName={data.companyName}
         title={data.title}
         invoiceNumber={data.invoiceNumber}
@@ -35,17 +36,6 @@ const InvoicePDF = ({ data }: Props) => (
       />
     </Page>
   </Document>
-);
-
-export const InvoicePDFPreview = ({ data }: Props) => (
-  <PDFViewer
-    style={{
-      width: '100%',
-      height: '100vh',
-    }}
-  >
-    <InvoicePDF data={data} />
-  </PDFViewer>
 );
 
 export default InvoicePDF;

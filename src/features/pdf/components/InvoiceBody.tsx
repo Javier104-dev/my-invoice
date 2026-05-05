@@ -1,17 +1,15 @@
 import { View } from '@react-pdf/renderer';
 
-import {
-  ILabelValue,
-  ITable,
-} from '@/features/invoice/interfaces/IInvoiceFormValues';
+import { ILabelValue } from '@/features/invoice/interfaces/invoice.types';
 import BodyInfoSection from '@/features/pdf/components/body/BodyInfoSection';
 import BodySummarySection from '@/features/pdf/components/body/BodySummarySection';
 import BodyTableSection from '@/features/pdf/components/body/BodyTableSection';
+import { IPDFInvoiceTable } from '@/features/pdf/interfaces/invoice-pdf.types';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
 type Props = {
   payTo: ILabelValue;
-  table: ITable;
+  table: IPDFInvoiceTable;
   notes: ILabelValue;
   terms: ILabelValue;
   netTotal: ILabelValue;
