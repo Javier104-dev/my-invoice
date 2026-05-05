@@ -11,9 +11,13 @@
     "format": "prettier \"src/**/*.{js,jsx,ts,tsx,json}\" --write"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.5.1",
     "@tailwindcss/vite": "^4.2.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "react-hook-form": "^7.74.0",
+    "react-router-dom": "^7.14.2",
+    "react-toastify": "^11.1.0",
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {

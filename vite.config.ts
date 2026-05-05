@@ -3,9 +3,9 @@ import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import { defineConfig } from 'vite';
 
-import tsconfig from './tsconfig.json';
+import tsconfigApp from './tsconfig.app.json';
 
-const rawAlias: Record<string, string[]> = tsconfig.compilerOptions.paths;
+const rawAlias: Record<string, string[]> = tsconfigApp.compilerOptions.paths;
 const alias: Record<string, string> = {};
 
 for (const x in rawAlias) {
