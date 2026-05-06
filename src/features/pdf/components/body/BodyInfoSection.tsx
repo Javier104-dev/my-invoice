@@ -1,6 +1,7 @@
 import { Text, View } from '@react-pdf/renderer';
 
 import { ILabelValue } from '../../../invoice/interfaces/invoice.types';
+
 import FileTextIcon from '@/features/pdf/assets/FileTextIcon';
 import WalletIcon from '@/features/pdf/assets/WalletIcon';
 import { styles } from '@/features/pdf/styles/invoice.styles';
