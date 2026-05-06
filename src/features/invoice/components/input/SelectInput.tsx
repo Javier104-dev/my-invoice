@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-import { ILabelValue } from '../interfaces/invoice.types';
+import { ILabelValue } from '@/features/invoice/interfaces/invoice.types';
 
 type Props = {
   label: string;
@@ -10,7 +10,7 @@ type Props = {
 
 export const SelectInput = ({ label, registration, options }: Props) => {
   return (
-    <div className='flex items-center gap-2 w-fit'>
+    <div className="flex items-center gap-2 w-fit">
       <label htmlFor="select-input">{label}</label>
       <select
         id="select-input"

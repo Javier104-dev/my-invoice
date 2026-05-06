@@ -1,6 +1,7 @@
 import { Text, View } from '@react-pdf/renderer';
 
 import { ILabelValue } from '../../../invoice/interfaces/invoice.types';
+
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
 type Props = {
@@ -21,9 +22,7 @@ const BodySummarySection = ({ payTo, netTotal }: Props) => {
           <Text>{netTotal.label}</Text>
           <View style={styles.goldUnderline} />
         </View>
-        <Text
-          style={styles.totalSectionAmount}
-        >{netTotal.value}</Text>
+        <Text style={styles.totalSectionAmount}>{netTotal.value}</Text>
       </View>
     </View>
   );

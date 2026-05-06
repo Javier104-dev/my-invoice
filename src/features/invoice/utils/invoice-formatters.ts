@@ -9,11 +9,10 @@ import { IPDFInvoiceFormValues } from '@/features/pdf/interfaces/invoice-pdf.typ
 export const formatDate = (dateString: string): string => {
   if (!dateString) return '';
 
-  const date = new Date(dateString);
+  const [year, month, day] = dateString.split('-').map(Number);
 
-  if (Number.isNaN(date.getTime())) return 'Invalid date';
+  if (!year || !month || !day) return 'Invalid date';
 
-  const day = date.getDate();
   const meses = [
     'Enero',
     'Febrero',
@@ -28,10 +27,8 @@ export const formatDate = (dateString: string): string => {
     'Noviembre',
     'Diciembre',
   ];
-  const month = meses[date.getMonth()];
-  const year = date.getFullYear();
 
-  return `${day} de ${month} - ${year}`;
+  return `${day} de ${meses[month - 1]} - ${year}`;
 };
 
 export const calculateLineTotal = (quantity: number, price: number): number => {
