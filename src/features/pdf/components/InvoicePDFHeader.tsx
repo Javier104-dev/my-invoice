@@ -10,7 +10,7 @@ type Props = {
   date: string;
 };
 
-const InvoiceHeader = ({
+const InvoicePDFHeader = ({
   imageUrl,
   companyName,
   title,
@@ -25,7 +25,7 @@ const InvoiceHeader = ({
         </View>
         <Text style={styles.companyName}>{companyName}</Text>
       </View>
-      <View style={styles.invoiceHeader}>
+      <View style={styles.invoicePDFHeader}>
         <Text style={styles.invoiceTitle}>{title}</Text>
         <Text style={styles.invoiceNumber}>{invoiceNumber}</Text>
         <Text style={styles.invoiceDate}>{date}</Text>
@@ -34,4 +34,4 @@ const InvoiceHeader = ({
   );
 };
 
-export default InvoiceHeader;
+export default InvoicePDFHeader;

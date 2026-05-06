@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  invoiceHeader: { gap: 6, alignItems: 'flex-end' },
+  invoicePDFHeader: { gap: 6, alignItems: 'flex-end' },
   invoiceTitle: {
     color: '#B78A2F',
   },

@@ -15,7 +15,7 @@ const FormField = ({
 }: PropTypes) => {
   return (
     <div
-      className='flex flex-col gap-1'
+      className="flex flex-col gap-1"
       style={{
         display: 'flex',
         flexDirection: labelPosition === 'top' ? 'column' : 'row',
