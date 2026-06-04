@@ -94,7 +94,7 @@ const Invoice = () => {
     setIsGenerating(true);
     try {
       const formatedData = formatInvoiceForPDF(data);
-
+      
       const blob = await pdf(<InvoicePDF data={formatedData} />).toBlob();
 
       const url = URL.createObjectURL(blob);
