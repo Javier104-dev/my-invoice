@@ -7,7 +7,7 @@ import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types'
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;
-  total: string;
+  total: number;
   currency: IInvoiceFormValues['currency'];
 };
 

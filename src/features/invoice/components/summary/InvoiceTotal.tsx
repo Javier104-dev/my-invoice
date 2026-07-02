@@ -5,7 +5,7 @@ import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types'
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;
-  total: string;
+  total: number;
   currency: IInvoiceFormValues['currency'];
 };
 
@@ -15,7 +15,7 @@ const InvoiceTotal = ({ register, total, currency }: Props) => {
       <div className="w-[50%]">
         <EditableLabel registration={register('netTotal.label')} />
       </div>
-      <span className="whitespace-nowrap">{`${total} ${currency}$`}</span>
+      <span className="whitespace-nowrap">{`${total.toFixed(2)} ${currency}$`}</span>
     </div>
   );
 };

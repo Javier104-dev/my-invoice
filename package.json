@@ -13,6 +13,7 @@
   "dependencies": {
     "@react-pdf/renderer": "^4.5.1",
     "@tailwindcss/vite": "^4.2.4",
+    "decimal.js": "^10.6.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.74.0",
