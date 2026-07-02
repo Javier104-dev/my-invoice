@@ -22,7 +22,7 @@ const BodyTableSection = ({ table, totalDue }: Props) => {
         <View style={styles.tableBodyRow}>
           {table.items.map((row, index) => (
             <View
-              key={row.quantity}
+              key={`${row.quantity}-${index}`}
               style={[
                 styles.tableBodyRowInner,
                 index >= table.items.length - 1 ? { borderBottom: 'none' } : {},

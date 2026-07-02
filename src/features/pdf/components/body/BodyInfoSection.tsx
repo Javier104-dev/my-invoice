@@ -12,24 +12,33 @@ type Props = {
 };
 
 const BodyInfoSection = ({ notes, terms }: Props) => {
+  const hasNotes = Boolean(notes?.value?.trim());
+  const hasTerms = Boolean(terms?.value?.trim());
+
+  if (!hasNotes && !hasTerms) return null;
+
   return (
     <View style={styles.additionalInfoSection}>
-      <View style={styles.additionalInfoColumns}>
-        <WalletIcon size={20} />
-        <View style={styles.additionalInfoColumnsContent}>
-          <Text style={styles.additionalInfoColumnsTitle}>{notes.label}</Text>
-          <View style={styles.goldUnderline} />
-          <Text style={styles.additionalInfoColumnsText}>{notes.value}</Text>
+      {hasNotes && (
+        <View style={styles.additionalInfoColumns}>
+          <WalletIcon size={20} />
+          <View style={styles.additionalInfoColumnsContent}>
+            <Text style={styles.additionalInfoColumnsTitle}>{notes.label}</Text>
+            <View style={styles.goldUnderline} />
+            <Text style={styles.additionalInfoColumnsText}>{notes.value}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.additionalInfoColumns}>
-        <FileTextIcon size={20} />
-        <View style={styles.additionalInfoColumnsContent}>
-          <Text style={styles.additionalInfoColumnsTitle}>{terms.label}</Text>
-          <View style={styles.goldUnderline} />
-          <Text style={styles.additionalInfoColumnsText}>{terms.value}</Text>
+      )}
+      {hasTerms && (
+        <View style={styles.additionalInfoColumns}>
+          <FileTextIcon size={20} />
+          <View style={styles.additionalInfoColumnsContent}>
+            <Text style={styles.additionalInfoColumnsTitle}>{terms.label}</Text>
+            <View style={styles.goldUnderline} />
+            <Text style={styles.additionalInfoColumnsText}>{terms.value}</Text>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

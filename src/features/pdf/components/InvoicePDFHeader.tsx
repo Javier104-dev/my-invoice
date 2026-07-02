@@ -20,9 +20,11 @@ const InvoicePDFHeader = ({
   return (
     <View style={[styles.header, styles.container]}>
       <View style={styles.companyBranding}>
-        <View style={styles.logoContainer}>
-          <Image src={imageUrl} style={styles.logo} />
-        </View>
+        {imageUrl && (
+          <View style={styles.logoContainer}>
+            <Image src={imageUrl} style={styles.logo} />
+          </View>
+        )}
         <Text style={styles.companyName}>{companyName}</Text>
       </View>
       <View style={styles.invoicePDFHeader}>
