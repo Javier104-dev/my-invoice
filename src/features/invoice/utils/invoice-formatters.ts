@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js';
+
 import {
   IInvoiceFormValues,
   IItemsFormValues,
@@ -35,23 +37,23 @@ export const formatDate = (dateString: string): string => {
 };
 
 export const calculateLineTotal = (quantity: number, price: number): number => {
-  return sanitizeNumber(quantity) * sanitizeNumber(price);
+  return new Decimal(sanitizeNumber(price))
+    .times(sanitizeNumber(quantity))
+    .toNumber();
 };
 
-const calculateSubtotal = (items: IItemsFormValues[]): number => {
-  return items.reduce(
-    (sum, item) => sum + calculateLineTotal(item.quantity, item.price),
-    0,
-  );
+export const calculateSubtotal = (items: IItemsFormValues[]): number => {
+  return items
+    .reduce(
+      (sum, item) => sum.plus(calculateLineTotal(item.quantity, item.price)),
+      new Decimal(0),
+    )
+    .toNumber();
 };
-
-export const formatSubtotal = (items: IItemsFormValues[]): string =>
-  calculateSubtotal(items).toFixed(2);
 
 const formatCurrency = (currency: string, value: number): string => {
-  const sanitizedNumber = sanitizeNumber(value)
-  return `${currency} ${sanitizedNumber.toFixed(2)}`;
-}
+  return `${currency} ${new Decimal(sanitizeNumber(value)).toFixed(2)}`;
+};
 
 export const formatInvoiceForPDF = (
   data: IInvoiceFormValues,
@@ -62,11 +64,11 @@ export const formatInvoiceForPDF = (
   const formattedDate = formatDate(data.date);
   const subtotal = calculateSubtotal(data.table.items);
   const formattedTotal = formatCurrency(data.currency, subtotal);
-  
+
   return {
     ...data,
     imageUrl: logoBase64 || '',
-    invoiceNumber: `# ${data.invoiceNumber}`,
+    invoiceNumber: data.invoiceNumber ? `# ${data.invoiceNumber}` : '',
     date: formattedDate,
     netTotal: {
       ...data.netTotal,

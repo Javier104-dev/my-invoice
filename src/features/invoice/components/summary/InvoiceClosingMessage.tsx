@@ -9,7 +9,7 @@ type Props = {
 
 const InvoiceClosingMessage = ({ register }: Props) => {
   return (
-    <div className="w-full max-w-[300px] self-center">
+    <div className="w-full max-w-75 self-center">
       <InputTextarea
         registration={register('closingMessage')}
         placeholder="Mensaje de cierre: texto que aparecerá al pie del documento"

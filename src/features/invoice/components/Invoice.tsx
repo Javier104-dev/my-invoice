@@ -16,19 +16,19 @@ import {
 import { STORAGE } from '@/features/invoice/constants/storage';
 import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 import {
+  calculateSubtotal,
   formatInvoiceForPDF,
-  formatSubtotal,
 } from '@/features/invoice/utils/invoice-formatters';
 import InvoicePDF from '@/features/pdf/InvoicePDF';
 
 const Invoice = () => {
   const saved = localStorage.getItem(STORAGE.FORM);
   const initialValues = saved ? JSON.parse(saved) : defaultValues;
-  const { register, control, handleSubmit, setValue  } =
+  const { register, control, handleSubmit, setValue } =
     useForm<IInvoiceFormValues>({
       defaultValues: initialValues,
     });
-    
+
   const [isGenerating, setIsGenerating] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -37,7 +37,7 @@ const Invoice = () => {
     control,
     name: 'table.items',
   });
-  
+
   const formSnapshot = useWatch({ control });
   const items = useWatch({ control, name: 'table.items' });
   const imageUrl = useWatch({ control, name: 'imageUrl' });
@@ -46,7 +46,7 @@ const Invoice = () => {
   const imageSrc = imageUrl
     ? (localStorage.getItem(`${STORAGE.LOGO_PREFIX}${imageUrl}`) ?? '')
     : '';
-  const total = formatSubtotal(items);
+  const total = calculateSubtotal(items);
 
   const handleLogoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -94,14 +94,16 @@ const Invoice = () => {
     setIsGenerating(true);
     try {
       const formatedData = formatInvoiceForPDF(data);
-      
+
       const blob = await pdf(<InvoicePDF data={formatedData} />).toBlob();
 
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
 
       link.href = url;
-      link.download = `invoice-${data.invoiceNumber}.pdf`;
+      link.download = data.invoiceNumber
+        ? `invoice-${data.invoiceNumber}.pdf`
+        : 'invoice.pdf';
       link.click();
 
       URL.revokeObjectURL(url);
