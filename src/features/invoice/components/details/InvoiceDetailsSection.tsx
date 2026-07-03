@@ -1,8 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 
 import InvoiceMetaDetails from '@/features/invoice/components/details/InvoiceMetaDetails';
 import InvoicePartiesDetails from '@/features/invoice/components/details/InvoicePartiesDetails';
-import {
+import type {
   IInvoiceFormValues,
   ILabelValue,
 } from '@/features/invoice/interfaces/invoice.types';
