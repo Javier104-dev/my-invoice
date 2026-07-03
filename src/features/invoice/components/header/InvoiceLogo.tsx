@@ -1,4 +1,4 @@
-import { ChangeEvent, RefObject } from 'react';
+import type { ChangeEvent, RefObject } from 'react';
 
 import LogoUploadInput from '@/features/invoice/components/input/LogoUploadInput';
 
@@ -16,7 +16,7 @@ const InvoiceLogo = ({
   handleLogoRemove,
 }: Props) => {
   return (
-    <div className="w-[150px] overflow-hidden flex justify-center items-center">
+    <div className="w-37.5 overflow-hidden flex justify-center items-center">
       <LogoUploadInput
         fileInputRef={fileInputRef}
         handleLogoChange={handleLogoChange}
@@ -25,7 +25,7 @@ const InvoiceLogo = ({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className="w-full max-w-[150px] h-[150px] cursor-pointer"
+          className="w-full max-w-37.5 h-37.5 cursor-pointer"
         >
           <div className="w-full h-full rounded-lg border border-gray-300 flex items-center justify-center text-gray-300">
             Subir logo

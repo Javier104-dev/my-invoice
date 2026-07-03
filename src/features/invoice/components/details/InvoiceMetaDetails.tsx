@@ -1,8 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 
 import Input from '@/features/invoice/components/input/Input';
 import SelectInput from '@/features/invoice/components/input/SelectInput';
-import {
+import type {
   IInvoiceFormValues,
   ILabelValue,
 } from '@/features/invoice/interfaces/invoice.types';
