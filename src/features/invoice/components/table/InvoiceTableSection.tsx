@@ -18,7 +18,6 @@ const InvoiceTableSection = ({
   items,
   currency,
 }: Props) => {
-
   const handleRemoveItem = (index: number) => {
     tableItemsFieldArray.remove(index);
   };

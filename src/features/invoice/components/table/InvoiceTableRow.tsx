@@ -18,7 +18,7 @@ const InvoiceTableRow = ({
   tableItemsFieldArray,
   items,
   currency,
-  handleRemoveItem
+  handleRemoveItem,
 }: Props) => {
   return (
     <div className="flex flex-col gap-2">

@@ -1,4 +1,4 @@
-import { IInvoiceFormValues } from "@/features/invoice/interfaces/invoice.types";
+import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 
 export const defaultValues: IInvoiceFormValues = {
   currency: 'USD',
