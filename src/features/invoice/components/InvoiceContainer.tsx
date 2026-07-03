@@ -1,4 +1,4 @@
-import { IReactChildrenProps } from '@/interfaces/IReactChildren';
+import type { IReactChildrenProps } from '@/interfaces/IReactChildren';
 
 type PropTypes = IReactChildrenProps;
 

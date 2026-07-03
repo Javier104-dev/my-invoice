@@ -1,9 +1,9 @@
-import { ChangeEvent, RefObject } from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import type { ChangeEvent, RefObject } from 'react';
+import type { UseFormRegister } from 'react-hook-form';
 
 import InvoiceHeaderDetails from '@/features/invoice/components/header/InvoiceHeaderDetails';
 import InvoiceLogo from '@/features/invoice/components/header/InvoiceLogo';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 
 type Props = {
   fileInputRef: RefObject<HTMLInputElement | null>;

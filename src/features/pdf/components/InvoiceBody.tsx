@@ -1,10 +1,10 @@
 import { View } from '@react-pdf/renderer';
 
-import { ILabelValue } from '@/features/invoice/interfaces/invoice.types';
+import type { ILabelValue } from '@/features/invoice/interfaces/invoice.types';
 import BodyInfoSection from '@/features/pdf/components/body/BodyInfoSection';
 import BodySummarySection from '@/features/pdf/components/body/BodySummarySection';
 import BodyTableSection from '@/features/pdf/components/body/BodyTableSection';
-import { IPDFInvoiceTable } from '@/features/pdf/interfaces/invoice-pdf.types';
+import type { IPDFInvoiceTable } from '@/features/pdf/interfaces/invoice-pdf.types';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
 type Props = {

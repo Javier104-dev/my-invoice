@@ -1,9 +1,9 @@
-import { UseFieldArrayReturn, UseFormRegister } from 'react-hook-form';
+import type { UseFieldArrayReturn, UseFormRegister } from 'react-hook-form';
 
 import AddInvoiceTableRowButton from '@/features/invoice/components/table/AddInvoiceTableRowButton';
 import InvoiceTableHeader from '@/features/invoice/components/table/InvoiceTableHeader';
 import InvoiceTableRow from '@/features/invoice/components/table/InvoiceTableRow';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;
@@ -18,7 +18,6 @@ const InvoiceTableSection = ({
   items,
   currency,
 }: Props) => {
-
   const handleRemoveItem = (index: number) => {
     tableItemsFieldArray.remove(index);
   };

@@ -1,5 +1,5 @@
 import { reactToastifyService } from '@/config/react-toastify';
-import { INotificationService } from '@/interfaces/services/INotificationService';
+import type { INotificationService } from '@/interfaces/services/INotificationService';
 
 class NotificationService {
   notificationService: INotificationService;

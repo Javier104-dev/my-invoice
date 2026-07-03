@@ -3,7 +3,7 @@ import { Document, Font, Page } from '@react-pdf/renderer';
 import InvoiceBody from '@/features/pdf/components/InvoiceBody';
 import InvoiceFooter from '@/features/pdf/components/InvoiceFooter';
 import InvoicePDFHeader from '@/features/pdf/components/InvoicePDFHeader';
-import { IPDFInvoiceFormValues } from '@/features/pdf/interfaces/invoice-pdf.types';
+import type { IPDFInvoiceFormValues } from '@/features/pdf/interfaces/invoice-pdf.types';
 import { styles } from '@/features/pdf/styles/invoice.styles';
 
 Font.registerHyphenationCallback((word) => [word]);

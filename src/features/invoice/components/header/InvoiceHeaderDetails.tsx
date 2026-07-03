@@ -1,8 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 
 import EditableLabel from '@/features/invoice/components/input/EditableLabel';
 import Input from '@/features/invoice/components/input/Input';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;
