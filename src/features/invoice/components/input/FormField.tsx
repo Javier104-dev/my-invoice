@@ -1,7 +1,7 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 
 import EditableLabel from '@/features/invoice/components/input/EditableLabel';
-import { IReactChildrenProps } from '@/interfaces/IReactChildren';
+import type { IReactChildrenProps } from '@/interfaces/IReactChildren';
 
 type PropTypes = {
   labelPosition: 'top' | 'left';

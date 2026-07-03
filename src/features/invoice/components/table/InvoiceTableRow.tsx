@@ -1,8 +1,8 @@
-import { UseFieldArrayReturn, UseFormRegister } from 'react-hook-form';
+import type { UseFieldArrayReturn, UseFormRegister } from 'react-hook-form';
 
 import Input from '@/features/invoice/components/input/Input';
 import InputTextarea from '@/features/invoice/components/input/InputTextarea';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 import { calculateLineTotal } from '@/features/invoice/utils/invoice-formatters';
 
 type Props = {

@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
-import { IToastService } from '@/interfaces/services/IToastService';
+import type { IToastService } from '@/interfaces/services/IToastService';
 
 export const success = (message: string) => {
   toast.success(message, {

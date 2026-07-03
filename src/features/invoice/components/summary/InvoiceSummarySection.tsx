@@ -1,9 +1,9 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 
 import InvoiceClosingMessage from '@/features/invoice/components/summary/InvoiceClosingMessage';
 import InvoiceNotes from '@/features/invoice/components/summary/InvoiceNotes';
 import InvoiceTotal from '@/features/invoice/components/summary/InvoiceTotal';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;

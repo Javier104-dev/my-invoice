@@ -1,10 +1,11 @@
-import {
-  IInvoiceFormValues,
-  IItemsFormValues,
-} from '../interfaces/invoice.types';
+import Decimal from 'decimal.js';
 
 import { STORAGE } from '@/features/invoice/constants/storage';
-import { IPDFInvoiceFormValues } from '@/features/pdf/interfaces/invoice-pdf.types';
+import type {
+  IInvoiceFormValues,
+  IItemsFormValues,
+} from '@/features/invoice/interfaces/invoice.types';
+import type { IPDFInvoiceFormValues } from '@/features/pdf/interfaces/invoice-pdf.types';
 
 const sanitizeNumber = (value: number): number =>
   Number.isFinite(value) ? value : 0;

@@ -1,5 +1,5 @@
 import { pdf } from '@react-pdf/renderer';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 
 import InvoiceHeaderSection from './header/InvoiceHeaderSection';
@@ -14,7 +14,7 @@ import {
   options,
 } from '@/features/invoice/constants/invoicedefaults';
 import { STORAGE } from '@/features/invoice/constants/storage';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 import {
   calculateSubtotal,
   formatInvoiceForPDF,

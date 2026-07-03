@@ -1,8 +1,8 @@
-import { UseFormRegister } from 'react-hook-form';
+import type { UseFormRegister } from 'react-hook-form';
 
 import FormField from '@/features/invoice/components/input/FormField';
 import InputTextarea from '@/features/invoice/components/input/InputTextarea';
-import { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;

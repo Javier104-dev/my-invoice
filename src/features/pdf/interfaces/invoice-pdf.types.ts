@@ -1,7 +1,7 @@
-import {
+import type {
   IInvoiceFormValues,
   ITable,
-} from '../../invoice/interfaces/invoice.types';
+} from '@/features/invoice/interfaces/invoice.types';
 
 export interface IPDFInvoiceItem {
   description: string;

@@ -1,6 +1,6 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 
-import { ILabelValue } from '@/features/invoice/interfaces/invoice.types';
+import type { ILabelValue } from '@/features/invoice/interfaces/invoice.types';
 
 type Props = {
   label: string;
