@@ -9,7 +9,7 @@ const AddInvoiceTableRowButton = ({ handleAddItem }: Props) => {
       type="button"
       onClick={handleAddItem}
     >
-      <span>Elemento en linea</span>
+      <span>Agregar ítem</span>
     </button>
   );
 };

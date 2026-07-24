@@ -16,11 +16,7 @@ const InvoiceMetaDetails = ({ register, options }: Props) => {
   return (
     <div className="flex flex-col gap-4 items-end">
       <Input registration={register('date')} type="date" />
-      <SelectInput
-        label="Divisa"
-        registration={register('currency')}
-        options={options}
-      />
+      <SelectInput registration={register('currency')} options={options} />
     </div>
   );
 };

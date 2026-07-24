@@ -1,75 +1,75 @@
-# React + TypeScript + Vite
+# My Invoice
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web application for creating and downloading fully customizable invoices in PDF format. All fields are editable, supports dynamic item management, custom logo upload, and two currencies (USD and USDT).
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Framework:** React 19 + TypeScript
+- **Build Tool:** Vite
+- **Styles:** TailwindCSS
+- **Forms:** React Hook Form
+- **PDF Generation:** React PDF
+- **Notifications:** React Toastify
 
-## React Compiler
+## ⚙️ Setup
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Prerequisites
 
-Note: This will impact Vite dev & build performances.
+- [Node >=24](https://github.com/nvm-sh/nvm)
 
-## Expanding the ESLint configuration
+### Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Run `npm ci` to install dependencies
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ▶️ How to Run
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# Development
+npm run start:dev
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Production (build first)
+npm run build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Code Quality
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Lint and fix
+npm run lint
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Format code
+npm run format
 ```
+
+## 📸 Screenshots
+
+<table>
+  <tr>
+    <td><img src="./docs/screenshots/invoice-form.png" /></td>
+    <td valign="top"><img src="./docs/screenshots/invoice-pdf.png" /></td>
+  </tr>
+</table>
+
+## 📁 Project Structure
+
+```
+src/
+├── features/         # Feature modules
+│   ├── invoice/      # Invoice form and logic
+│   └── pdf/          # PDF generation
+├── interfaces/       # Global TypeScript interfaces
+├── pages/            # Route pages
+└── services/         # Global services
+```
+
+## 🛠️ Recommended Tools
+
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+
+## 👤 Author
+
+| [<img src='https://avatars.githubusercontent.com/u/105408069?v=4' width=115><br><sub>Javier Anibal Villca</sub>](https://github.com/Javier104-dev) |
+| :------------------------------------------------------------------------------------------------------------------------------------------------: |
