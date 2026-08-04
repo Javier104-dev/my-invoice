@@ -3,7 +3,10 @@ import type { UseFieldArrayReturn, UseFormRegister } from 'react-hook-form';
 import Input from '@/features/invoice/components/input/Input';
 import InputTextarea from '@/features/invoice/components/input/InputTextarea';
 import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
-import { calculateLineTotal } from '@/features/invoice/utils/invoice-formatters';
+import {
+  calculateLineTotal,
+  formatFormCurrency,
+} from '@/features/invoice/utils/invoice-formatters';
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;
@@ -52,10 +55,10 @@ const InvoiceTableRow = ({
           </div>
           <div className="relative w-28 px-3 py-1.5 flex items-center group">
             <span className="whitespace-nowrap">
-              {`${calculateLineTotal(
-                items[index]?.quantity,
-                items[index]?.price,
-              ).toFixed(2)} ${currency}`}
+              {formatFormCurrency(
+                calculateLineTotal(items[index]?.quantity, items[index]?.price),
+                currency,
+              )}
             </span>
             <button
               className="absolute right-4 cursor-pointer text-gray-400 hover:text-red-600 rounded transition-colors invisible group-hover:visible font-bold"

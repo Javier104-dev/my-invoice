@@ -2,6 +2,7 @@ import type { UseFormRegister } from 'react-hook-form';
 
 import EditableLabel from '@/features/invoice/components/input/EditableLabel';
 import type { IInvoiceFormValues } from '@/features/invoice/interfaces/invoice.types';
+import { formatFormCurrency } from '@/features/invoice/utils/invoice-formatters';
 
 type Props = {
   register: UseFormRegister<IInvoiceFormValues>;
@@ -15,7 +16,7 @@ const InvoiceTotal = ({ register, total, currency }: Props) => {
       <div className="w-[50%]">
         <EditableLabel registration={register('netTotal.label')} />
       </div>
-      <span className="whitespace-nowrap">{`${total.toFixed(2)} ${currency}$`}</span>
+      <span className="whitespace-nowrap">{`${formatFormCurrency(total, currency)}$`}</span>
     </div>
   );
 };
