@@ -50,8 +50,16 @@ export const calculateSubtotal = (items: IItemsFormValues[]): number => {
     .toNumber();
 };
 
-const formatCurrency = (currency: string, value: number): string => {
-  return `${currency} ${new Decimal(sanitizeNumber(value)).toFixed(2)}`;
+export const toFixedDecimal = (value: number): string => {
+  return new Decimal(value).toFixed(2);
+};
+
+export const formatFormCurrency = (value: number, currency: string): string => {
+  return `${toFixedDecimal(value)} ${currency}`;
+};
+
+const formatPDFCurrency = (currency: string, value: number): string => {
+  return `${currency} ${toFixedDecimal(sanitizeNumber(value))}`;
 };
 
 export const formatInvoiceForPDF = (
@@ -62,7 +70,7 @@ export const formatInvoiceForPDF = (
   );
   const formattedDate = formatDate(data.date);
   const subtotal = calculateSubtotal(data.table.items);
-  const formattedTotal = formatCurrency(data.currency, subtotal);
+  const formattedTotal = formatPDFCurrency(data.currency, subtotal);
 
   return {
     ...data,
@@ -82,8 +90,8 @@ export const formatInvoiceForPDF = (
       items: data.table.items.map((item) => ({
         ...item,
         quantity: sanitizeNumber(item.quantity),
-        price: formatCurrency(data.currency, item.price),
-        total: formatCurrency(
+        price: formatPDFCurrency(data.currency, item.price),
+        total: formatPDFCurrency(
           data.currency,
           calculateLineTotal(item.quantity, item.price),
         ),
